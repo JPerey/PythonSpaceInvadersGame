@@ -1,10 +1,12 @@
 from turtle import Turtle
 
+
 class Player(Turtle):
 
     def __init__(self):
         super().__init__()
         self.shape("triangle")
+        self.color("white")
         self.shapesize(1.5, 1.5)
         self.penup()
         self.goto(0, -220)
@@ -22,4 +24,3 @@ class Player(Turtle):
         if self.xcor() > 200:
             new_x = 200
         self.goto(new_x, -220)
-

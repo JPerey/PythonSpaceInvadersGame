@@ -1,25 +1,20 @@
 from turtle import Turtle
 import random
 
+
 class Enemy(Turtle):
 
     def __init__(self):
         super().__init__()
         self.enemy_list = []
-        # self.shape("turtle")
-        # self.seth(270)
-        # self.penup()
-        # self.x = random.randint(-200, 100)
-        # self.y = 200
-        # self.goto(self.x, self.y)
-        # self.move_x = 5
-        # self.move_y = 20
 
     def create_enemy(self):
         ship_enemy = Turtle()
         ship_enemy.shape("turtle")
+        ship_enemy.fillcolor("white")
         ship_enemy.seth(270)
         ship_enemy.penup()
+        ship_enemy.speed(0)
         ship_enemy.x = random.randint(-200, 100)
         ship_enemy.y = 200
         ship_enemy.goto(ship_enemy.x, ship_enemy.y)
@@ -41,7 +36,11 @@ class Enemy(Turtle):
                 enemy.y = enemy.y - enemy.move_y
                 enemy.move_x = - (enemy.move_x * 1.05)
                 enemy.goto(enemy.xcor(), enemy.y)
-                print(f"new y : {enemy.y}")
 
+            # if enemy.distance(bullet) < 20:
+            #     enemy_index = self.enemy_list.index(enemy)
+            #     self.enemy_death(enemy, enemy_index)
 
-
+    def enemy_death(self, enemy, enemy_index):
+        enemy.goto(600, 600)
+        self.enemy_list.pop(enemy_index)

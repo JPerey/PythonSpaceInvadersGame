@@ -8,10 +8,11 @@ class Bullet(Turtle):
         self.shape("triangle")
         self.color("yellow")
         self.shapesize(.5, .5)
+        self.seth(90)
         self.penup()
         self.speed(0)
         self.hideturtle()
-        self.bullet_speed = 5
+        self.bullet_speed = 10
         self.player_x = 0
         self.bullet_state = False
 
@@ -29,5 +30,3 @@ class Bullet(Turtle):
         self.goto(self.player_x, -210)
         self.showturtle()
 
-    def reset_bullet(self):
-        pass

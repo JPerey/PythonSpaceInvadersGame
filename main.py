@@ -29,6 +29,7 @@ from turtle import Turtle, Screen
 from player import Player
 from bullet_manager import Bullet
 from enemy import Enemy
+from scoreboard import Scoreboard
 from functools import partial
 
 # variables
@@ -39,11 +40,13 @@ game_over = False
 screen = Screen()
 screen.setup(width=540, height=540)
 screen.title(" Space Invaders - 2022")
+screen.bgcolor("black")
 screen.tracer(1, 0.1)
 
 border = Turtle()
 border.shape("triangle")
 border.penup()
+border.color("white")
 border.hideturtle()
 border.speed(0)
 border.goto(-240, -240)
@@ -56,6 +59,7 @@ for borderi in range(0, 4):
 player = Player()
 bullet = Bullet()
 enemy = Enemy()
+scoreboard = Scoreboard()
 
 
 def game_loop():
@@ -65,6 +69,12 @@ def game_loop():
         bullet.move_bullet()
         enemy.move_enemy()
 
+        for enemy_idx in enemy.enemy_list:
+            if bullet.bullet_state == True and enemy_idx.distance(bullet) < 20:
+                enemy_index = enemy.enemy_list.index(enemy_idx)
+                enemy.enemy_death(enemy_idx, enemy_index)
+                scoreboard.print_score(1)
+
         if lvl == 1:
             for i in range(0, 4):
                 enemy.create_enemy()
@@ -72,11 +82,13 @@ def game_loop():
             lvl += 1
 
 
+# event listeners
 screen.onkey(player.move_left, "a")
 screen.onkey(player.move_right, "d")
 screen.onkey(partial(bullet.shoot_bullet, player), "space")
 screen.listen()
 
+# method calls
 game_loop()
 
 screen.exitonclick()
