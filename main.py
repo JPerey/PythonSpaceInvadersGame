@@ -11,15 +11,14 @@
 7. create bullet class with bullet attributes ( shape, position, etc.) - separate file X
 8. shoot bullet every time key is pressed ( give bullet movement, give it a way to return to player position once
 it reaches top of screen X
-9. create enemy class with enemy attributes ( shape, movement, border physics, etc.) - separate file
+9. create enemy class with enemy attributes ( shape, movement, border physics, etc.) - separate file X
 
-10. give enemy/ bullet physics
-11. create scoreboard class with scoreboard attributes ( position, text, etc.) - separate file
-12. make enemy/ player interaction - if enemy reaches bottom then we lose
-13. create gameover screen
-14. create a highscore text file that saves your high score
-15. create multiple "levels"
-16. create gameplay while loop - once gameover ask player if they want to play again
+10. give enemy/ bullet physics X
+11. create scoreboard class with scoreboard attributes ( position, text, etc.) - separate file X
+12. make enemy/ player interaction - if enemy reaches bottom then we lose X
+13. create gameover screen X
+14. create multiple "levels" X
+15. create gameplay while loop - once gameover ask player if they want to play again
 
 DONE
 
@@ -34,8 +33,7 @@ from functools import partial
 
 # variables
 
-BLACK = ""
-game_over = False
+play_again = "yes"
 
 screen = Screen()
 screen.setup(width=540, height=540)
@@ -64,6 +62,7 @@ scoreboard = Scoreboard()
 
 def game_loop():
     lvl = 1
+    game_over = False
     while not game_over:
         screen.update()
         bullet.move_bullet()
@@ -75,11 +74,42 @@ def game_loop():
                 enemy.enemy_death(enemy_idx, enemy_index)
                 scoreboard.print_score(1)
 
+            if enemy_idx.ycor() < -220:
+                game_over = True
+                scoreboard.game_over()
+
         if lvl == 1:
             for i in range(0, 4):
-                enemy.create_enemy()
+                enemy.create_enemy(lvl)
                 i += 1
             lvl += 1
+
+        elif lvl == 2 and len(enemy.enemy_list) == 0:
+            for i in range(0, 8):
+                enemy.create_enemy(lvl)
+                i += 1
+            lvl += 1
+
+        elif lvl == 3 and len(enemy.enemy_list) == 0:
+            for i in range(0, 10):
+                enemy.create_enemy(lvl)
+                i += 1
+            lvl += 1
+
+        elif lvl == 4 and len(enemy.enemy_list) == 0:
+            for i in range(0, 10):
+                enemy.create_enemy(lvl)
+                i += 1
+            lvl += 1
+
+        elif lvl == 5 and len(enemy.enemy_list) == 0:
+            for i in range(0, 10):
+                enemy.create_enemy(lvl)
+                i += 1
+            lvl += 1
+        if lvl == 6 and len(enemy.enemy_list) == 0:
+            game_over = True
+            scoreboard.game_won()
 
 
 # event listeners
@@ -89,6 +119,8 @@ screen.onkey(partial(bullet.shoot_bullet, player), "space")
 screen.listen()
 
 # method calls
-game_loop()
+while play_again == "yes":
+    game_loop()
+    play_again = screen.textinput("Play again?", "Would you like to play again? 'yes' to play again:").lower()
 
 screen.exitonclick()

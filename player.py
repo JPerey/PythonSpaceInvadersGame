@@ -15,12 +15,12 @@ class Player(Turtle):
 
     def move_left(self):
         new_x = self.xcor() - self.x_move
-        if self.xcor() < -200:
-            new_x = -200
+        if self.xcor() < -210:
+            new_x = -210
         self.goto(new_x, -220)
 
     def move_right(self):
         new_x = self.xcor() + self.x_move
-        if self.xcor() > 200:
-            new_x = 200
+        if self.xcor() > 210:
+            new_x = 210
         self.goto(new_x, -220)
